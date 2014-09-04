@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -41,6 +42,13 @@ public class ColumnLayoutDemo extends Activity {
         }
         CharSequence spanned = Html.fromHtml(testHtml, imageGetter, null);
         cl.setText(spanned);
+        cl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ColumnLayout cl = (ColumnLayout)v;
+                cl.setTextSize(cl.getTextSize() == 12f ? 24f : 12f);
+            }
+        });
     }
 
     private String loadText( ) {

@@ -56,6 +56,16 @@ public class ColumnLayout extends View {
         mSpacing = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, metrics);
     }
 
+    public void setTextSize(float size) {
+        mPaint.setTextSize(size);
+        mTextLayoutNeeded = true;
+        invalidate();
+    }
+
+    public float getTextSize() {
+        return mPaint.getTextSize();
+    }
+
     /**
      * Set the space between the columns. The view does not have automatic padding around the text.
      * @param width
