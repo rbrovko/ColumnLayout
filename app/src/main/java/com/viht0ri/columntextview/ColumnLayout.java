@@ -51,13 +51,19 @@ public class ColumnLayout extends View {
         mPaint = new TextPaint();
         Resources res = ctx.getResources();
         DisplayMetrics metrics = res.getDisplayMetrics();
+        //Set sensible default values
         mColumnWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, metrics);
         mSpacing = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, metrics);
     }
 
+    /**
+     * Set the space between the columns. The view does not have automatic padding around the text.
+     * @param width
+     */
     public void setColumnWidth(int width) {
         mColumnWidth = width;
         mTextLayoutNeeded = true;
+        invalidate();
     }
 
     public int getColumnWidth() {
@@ -67,13 +73,14 @@ public class ColumnLayout extends View {
     public void setText(CharSequence text) {
         mText = text;
         mTextLayoutNeeded = true;
-
+        invalidate();
     }
 
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
         super.setPadding(left, top, right, bottom);
         mTextLayoutNeeded = true;
+        invalidate();
     }
 
     @Override
@@ -91,6 +98,10 @@ public class ColumnLayout extends View {
         }
     }
 
+    /**
+     * Get the text that didn't fit to the screen.
+     * @return
+     */
     public CharSequence getOverflow() {
         int start = getOverflowBegin();
         if(start > -1 && start < mText.length() - 1) {
@@ -102,9 +113,7 @@ public class ColumnLayout extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if(mTextLayoutNeeded) {
-            long start = -System.currentTimeMillis();
             createLayouts(getWidth(), getHeight());
-            Log.d("Layout", (start + System.currentTimeMillis()) + "ms");
         }
         super.onDraw(canvas);
         canvas.save();
@@ -153,7 +162,6 @@ public class ColumnLayout extends View {
             startLine = endLine;
         }
         mTextLayoutNeeded = false;
-        Log.d("OVERFLOW", getOverflow().toString());
     }
 
     private static Layout createLayout(int width, CharSequence text, TextPaint paint) {
