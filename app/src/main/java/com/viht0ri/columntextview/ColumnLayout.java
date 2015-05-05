@@ -169,7 +169,7 @@ public class ColumnLayout extends View {
                 break;
             }
             usedWidth += mColumnWidth;
-            startLine = endLine;
+            startLine = endLine + 1;
         }
         mTextLayoutNeeded = false;
     }
